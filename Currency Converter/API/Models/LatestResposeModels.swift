@@ -7,10 +7,23 @@
 
 import Foundation
 
+// " Json -> Raw Model (PJO) -> Business API -> View Model ... -> UI
+
+enum LatestRatesService {
+        
+    struct Response: Decodable {
+        let base: String
+        let date: String
+        let rates: [String: Double]
+    }
+
+}
+
+/*
 struct CurrencyConversion: Decodable {
     var base: String
     var date: Date
-    var exchangeRates: [ExchangeRate]{
+    var exchangeRates: [String: ] {
         return rates.values
     }
     private var rates: ExchangeRate.ListRate
@@ -35,3 +48,4 @@ private extension ExchangeRate {
         }
     }
 }
+*/

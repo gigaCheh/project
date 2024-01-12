@@ -5,18 +5,21 @@
 //  Created by gigaCheh on 30.12.2023.
 //
 
-import Foundation
-
-struct Success: Decodable {
-    var success: Bool
-    var symbols: [Symbols]
+enum SymbolsService {
+    
+    struct Response: Decodable {
+        let success: Bool
+        let symbols: [String: String]
+    }
+    
+    struct Symbol: Decodable { // Business logic !!!
+        let id: String
+        let description: String
+    }
 }
 
-struct Symbols: Decodable {
-    var abbreviation: String
-    var valute: String
-}
 
+/*
 private extension Symbols {
     struct ListValute: Decodable {
         let property: [Symbols]
@@ -31,3 +34,4 @@ private extension Symbols {
         }
     }
 }
+*/
