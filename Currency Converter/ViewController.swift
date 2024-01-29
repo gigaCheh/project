@@ -8,20 +8,55 @@ import Foundation
 import UIKit
 
 class ViewController: UIViewController {
+    
+    private var responseLatest: [LatestRatesService.Response] = []
+    private var responseSymbols: [SymbolsService.Response] = []
+    private let networkService = NetworkService()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("1")
-                
+        let urlSymbols = "https://api.apilayer.com/exchangerates_data/symbols"
+        var requestSymbols = URLRequest(url: URL(string: urlSymbols)!, timeoutInterval: Double.infinity)
+        requestSymbols.httpMethod = "GET"
+        requestSymbols.addValue("ElcLVKjaTaYabso443Aakh6vdzn1PL8v", forHTTPHeaderField: "apikey")
+
+        
         let urlLatest = "https://api.apilayer.com/exchangerates_data/latest?symbols=RUB,EUR&base=USD"
         var requestLatest = URLRequest(url: URL(string: urlLatest)!, timeoutInterval: Double.infinity)
         
         requestLatest.httpMethod = "GET"
         requestLatest.addValue("ElcLVKjaTaYabso443Aakh6vdzn1PL8v", forHTTPHeaderField: "apikey")
 
+        
+        networkService.fetchData(request: requestSymbols) { (result: Result<[SymbolsService.Response],ApiClientError>) in
+            
+            switch result {
+            case .success(let data):
+                DispatchQueue.main.async {
+                    self.responseSymbols = data
+                }
+            case .failure(let error):
+                print("Error downloading data:", error)
+            }
+        }
+        
+        
+        networkService.fetchData(request: requestLatest) { (result: Result<[LatestRatesService.Response],ApiClientError>) in
+            
+            switch result {
+            case .success(let data):
+                DispatchQueue.main.async {
+                    self.responseLatest = data
+                }
+            case .failure(let error):
+                print("Error downloading data:", error)
+            }
+        }
+    }
+            }
+        /*
         let taskLatest = URLSession.shared.dataTask(with: requestLatest) { data, response, error in
-            print("3")
             guard let data = data else {
                 print(String(describing: error))
                 return
@@ -31,7 +66,6 @@ class ViewController: UIViewController {
             do {
 
                 let decoder = JSONDecoder()
-//                decoder.dateDecodingStrategy = .formatted(formatter)
                 let model = try decoder.decode(LatestRatesService.Response.self, from: data)
                 print("JSON decode success: \(model)")
             } catch {
@@ -40,16 +74,10 @@ class ViewController: UIViewController {
         }
 
         taskLatest.resume()
-
-
-        print("2")
+         */
         
+    
         /*
-        let urlSymbols = "https://api.apilayer.com/exchangerates_data/symbols"
-        var requestSymbols = URLRequest(url: URL(string: urlSymbols)!, timeoutInterval: Double.infinity)
-        requestSymbols.httpMethod = "GET"
-        requestSymbols.addValue("ElcLVKjaTaYabso443Aakh6vdzn1PL8v", forHTTPHeaderField: "apikey")
-
         let taskSymbols = URLSession.shared.dataTask(with: requestSymbols) { data, response, error in
           guard let data = data else {
             print(String(describing: error))
@@ -66,9 +94,10 @@ class ViewController: UIViewController {
         }
 
         taskSymbols.resume()
-        */
+        
     }
 
 
 }
+*/
 
