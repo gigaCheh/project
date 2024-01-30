@@ -87,9 +87,9 @@
 		081E60E32B3DC9AF004CEBD5 = {
 			isa = PBXGroup;
 			children = (
-				081E60EE2B3DC9AF004CEBD5 /* Currency Converter */,
-				081E61052B3DC9B0004CEBD5 /* Currency ConverterTests */,
-				081E610F2B3DC9B0004CEBD5 /* Currency ConverterUITests */,
+				081E60EE2B3DC9AF004CEBD5 /* CurrencyConverter */,
+				081E61052B3DC9B0004CEBD5 /* CurrencyConverterTests */,
+				081E610F2B3DC9B0004CEBD5 /* CurrencyConverterUITests */,
 				081E60ED2B3DC9AF004CEBD5 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -104,7 +104,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		081E60EE2B3DC9AF004CEBD5 /* Currency Converter */ = {
+		081E60EE2B3DC9AF004CEBD5 /* CurrencyConverter */ = {
 			isa = PBXGroup;
 			children = (
 				081E611F2B3DC9CC004CEBD5 /* API */,
@@ -116,24 +116,24 @@
 				081E60FA2B3DC9B0004CEBD5 /* LaunchScreen.storyboard */,
 				081E60FD2B3DC9B0004CEBD5 /* Info.plist */,
 			);
-			path = "Currency Converter";
+			path = CurrencyConverter;
 			sourceTree = "<group>";
 		};
-		081E61052B3DC9B0004CEBD5 /* Currency ConverterTests */ = {
+		081E61052B3DC9B0004CEBD5 /* CurrencyConverterTests */ = {
 			isa = PBXGroup;
 			children = (
 				081E61062B3DC9B0004CEBD5 /* Currency_ConverterTests.swift */,
 			);
-			path = "Currency ConverterTests";
+			path = CurrencyConverterTests;
 			sourceTree = "<group>";
 		};
-		081E610F2B3DC9B0004CEBD5 /* Currency ConverterUITests */ = {
+		081E610F2B3DC9B0004CEBD5 /* CurrencyConverterUITests */ = {
 			isa = PBXGroup;
 			children = (
 				081E61102B3DC9B0004CEBD5 /* Currency_ConverterUITests.swift */,
 				081E61122B3DC9B0004CEBD5 /* Currency_ConverterUITestsLaunchTests.swift */,
 			);
-			path = "Currency ConverterUITests";
+			path = CurrencyConverterUITests;
 			sourceTree = "<group>";
 		};
 		081E611F2B3DC9CC004CEBD5 /* API */ = {
