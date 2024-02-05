@@ -5,19 +5,10 @@
 //  Created by gigaCheh on 25.01.2024.
 //
 
-
-    
-enum SymbolsService {
+extension SymbolsService {
     
     struct Response: Decodable {
         let success: Bool
         let symbols: [String: String]
     }
-    
-    struct Symbol: Decodable {  
-        let id: String
-        let description: String
-    }
 }
-
-    
