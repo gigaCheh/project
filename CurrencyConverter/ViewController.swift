@@ -12,6 +12,7 @@ class ViewController: UIViewController {
     private var responseLatest: [LatestRatesService.Response] = []
     private var responseSymbols: [SymbolsService.Response] = []
     private let networkService = NetworkService()
+    private let key = APIToken()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,14 +20,14 @@ class ViewController: UIViewController {
         let urlSymbols = "https://api.apilayer.com/exchangerates_data/symbols"
         var requestSymbols = URLRequest(url: URL(string: urlSymbols)!, timeoutInterval: Double.infinity)
         requestSymbols.httpMethod = "GET"
-        requestSymbols.addValue("ElcLVKjaTaYabso443Aakh6vdzn1PL8v", forHTTPHeaderField: "apikey")
+        requestSymbols.addValue(key.token, forHTTPHeaderField: "apikey")
 
         
         let urlLatest = "https://api.apilayer.com/exchangerates_data/latest?symbols=RUB,EUR&base=USD"
         var requestLatest = URLRequest(url: URL(string: urlLatest)!, timeoutInterval: Double.infinity)
         
         requestLatest.httpMethod = "GET"
-        requestLatest.addValue("ElcLVKjaTaYabso443Aakh6vdzn1PL8v", forHTTPHeaderField: "apikey")
+        requestLatest.addValue(key.token, forHTTPHeaderField: "apikey")
 
         
         networkService.fetchData(request: requestSymbols) { (result: Result<[SymbolsService.Response],ApiClientError>) in
