@@ -7,9 +7,17 @@
 
 import Foundation
 
-class APIToken {
-        
-    let token: String = "ElcLVKjaTaYabso443Aakh6vdzn1PL8v"
+protocol TokenProviderProtocol {
+    var token: String { get }
     
+    func addAuthKey(request: inout URLRequest)
 }
 
+final class APIToken: TokenProviderProtocol {
+    
+    let token: String = "ElcLVKjaTaYabso443Aakh6vdzn1PL8v"
+    
+    func addAuthKey(request: inout URLRequest) {
+        request.addValue(token, forHTTPHeaderField: "apikey")
+    }
+}

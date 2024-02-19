@@ -17,8 +17,9 @@ extension LatestRatesService {
 }
 
 extension LatestRatesService.Model {
-    
+    /*
     init(response: LatestRatesService.Response) {
         // TODO: написать конструктор
     }
+    */
 }
