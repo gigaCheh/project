@@ -9,7 +9,7 @@ import Foundation
 
 extension LatestRatesService {
     
-    struct Model {
+    struct Model: Decodable {
         let baseCurrencyId: CurrencyId
         let date: Date
         let rates: [CurrencyId: Double]
@@ -17,9 +17,14 @@ extension LatestRatesService {
 }
 
 extension LatestRatesService.Model {
-    /*
+    
     init(response: LatestRatesService.Response) {
         // TODO: написать конструктор
+        var result = [LatestRatesService.Model]()
+     
+        response.rates.forEach { key, value in
+     result.append(.init(baseCurrencyId: key, rates: value))
     }
-    */
+     self.rates = result
+    
 }
