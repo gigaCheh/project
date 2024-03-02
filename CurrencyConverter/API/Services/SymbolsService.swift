@@ -22,19 +22,19 @@ extension SymbolsService {
 
     final class Service: SymbolsServiceProtocol {
         
-        init(tokenProvider: TokenProviderProtocol) {
-            
+        private let networkService: NetworkService
+        
+        init(networkService: NetworkService) {
+            self.networkService = networkService
         }
      
         func fetchSymbols(completion: @escaping (Result<SymbolsService.Symbols, ApiClientError>) -> ()) {
-
             guard case let .success(request) = createRequest() else {
                 completion(.failure(ApiClientError.request))
+                return
             }
             
-            let networkClient = NetworkService(tokenProvider: tokenProvider)
-            
-            networkClient.fetchData(request: request) { (result: Result<SymbolsService.Response, ApiClientError>) in
+            networkService.fetchData(request: request) { (result: Result<SymbolsService.Response, ApiClientError>) in
                 switch result {
                 case let .failure(error):
                     completion(.failure(error))
@@ -58,3 +58,17 @@ extension SymbolsService {
     }
 }
 
+
+extension SymbolsService {
+    
+    final class ServiceDemoData: SymbolsServiceProtocol {
+        
+        private let demoData: SymbolsService.Symbols = .init(
+            items: <#T##[SymbolsService.Symbol]#>
+        )
+        
+        func fetchSymbols(completion: @escaping (Result<SymbolsService.Symbols, ApiClientError>) -> ()) {
+            ...
+        }
+    }
+}

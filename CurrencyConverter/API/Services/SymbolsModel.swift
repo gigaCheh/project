@@ -13,7 +13,7 @@ extension SymbolsService {
         let items: [Symbol]
     }
     
-    struct Symbol: Decodable {
+    struct Symbol {
         let id: CurrencyId
         let description: String
     }

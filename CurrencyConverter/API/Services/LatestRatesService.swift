@@ -9,31 +9,34 @@ import Foundation
 enum LatestRatesService { }
 
 protocol LatestServiceProtocol {
-    func fetchRates(completion: @escaping (Result<LatestRatesService.Model,
-                    ApiClientError>) -> ())
+    func fetchRates(
+        symbols: [CurrencyId],
+        base: CurrencyId,
+        completion: @escaping (Result<LatestRatesService.Model, ApiClientError>) -> ()
+    )
 }
-
 
 extension LatestRatesService {
     
     enum Constansts {
-        static let endpoint = "https://api.apilayer.com/exchangerates_data/latest?symbols=RUB,EUR&base=USD"
+        static let endpoint = "https://api.apilayer.com/exchangerates_data/latest"
     }
     
     final class Service: LatestServiceProtocol {
         
-        init(tokenProvider: TokenProviderProtocol) {
-            
+        private let networkService: NetworkService
+        
+        init(networkService: NetworkService) {
+            self.networkService = networkService
         }
         
-        func fetchRates(completion: @escaping (Result<LatestRatesService.Model, ApiClientError>) -> ()) {
-            guard case let .success(request) = createRequest() else {
+        func fetchRates(symbols: [CurrencyId], base: CurrencyId, completion: @escaping (Result<LatestRatesService.Model, ApiClientError>) -> ()) {
+            guard case let .success(request) = createRequest(symbols: symbols, base: base) else {
                 completion(.failure(ApiClientError.request))
+                return
             }
             
-            let networkClient = NetworkService(tokenProvider: tokenProvider)
-            
-            networkClient.fetchData(request: request) { (result: Result<LatestRatesService.Response, ApiClientError>) in
+            networkService.fetchData(request: request) { (result: Result<LatestRatesService.Response, ApiClientError>) in
                 switch result {
                 case let .failure(error):
                     completion(.failure(error))
@@ -44,8 +47,19 @@ extension LatestRatesService {
             }
         }
         
-        private func createRequest() -> Result<URLRequest, ApiClientError> {
-            guard let url = URL(string: Constansts.endpoint) else {
+        private func createRequest(symbols: [CurrencyId], base: CurrencyId) -> Result<URLRequest, ApiClientError> {
+            let symbolsStr = symbols.joined(separator: ",")
+            
+            guard var components = URLComponents(string: Constansts.endpoint) else {
+                return .failure(ApiClientError.request)
+            }
+            
+            components.queryItems = [
+                URLQueryItem(name: "symbols", value: symbolsStr),
+                URLQueryItem(name: "base", value: base),
+            ]
+            
+            guard let url = components.url else {
                 return .failure(ApiClientError.request)
             }
             
@@ -54,7 +68,5 @@ extension LatestRatesService {
             
             return .success(request)
         }
-        
     }
-    
 }
