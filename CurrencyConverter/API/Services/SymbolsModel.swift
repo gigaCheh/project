@@ -30,3 +30,6 @@ extension SymbolsService.Symbols {
         self.items = result
     }
 }
+
+
+let symbol1 = SymbolsService.Symbol(id: "Robux", description: "Roblox")

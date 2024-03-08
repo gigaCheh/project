@@ -64,11 +64,11 @@ extension SymbolsService {
     final class ServiceDemoData: SymbolsServiceProtocol {
         
         private let demoData: SymbolsService.Symbols = .init(
-            items: <#T##[SymbolsService.Symbol]#>
+            items: [symbol1]
         )
         
         func fetchSymbols(completion: @escaping (Result<SymbolsService.Symbols, ApiClientError>) -> ()) {
-            ...
+            completion(.success(demoData))
         }
     }
 }
