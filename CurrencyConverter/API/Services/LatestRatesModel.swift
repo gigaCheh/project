@@ -24,13 +24,10 @@ extension LatestRatesService.Model {
         response.rates.forEach { key, value in
             rates[key] = value
         }
-        
-        let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy-MM-dd HH:mm"
-        
-        guard let date = dateFormatter.date(from: response.date) else {
-                    fatalError("Не удалось преобразовать строку даты в объект Date")
-                }
+
+        guard let date = DateFormatter.YYYYMMDD.date(from: response.date) else {
+            fatalError("Не удалось преобразовать строку даты в объект Date")
+        }
         
         self.init(
             baseCurrencyId: response.base,
@@ -42,11 +39,10 @@ extension LatestRatesService.Model {
 
 
 extension DateFormatter {
-    static let DDMMYYYYHHMM: DateFormatter = {
+    static let YYYYMMDD: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd HH:mm"
+        formatter.dateFormat = "yyyy-MM-dd"
         formatter.timeZone = TimeZone.ReferenceType.default
-        
         return formatter
     }()
 }

@@ -31,5 +31,3 @@ extension SymbolsService.Symbols {
     }
 }
 
-
-let symbol1 = SymbolsService.Symbol(id: "Robux", description: "Roblox")

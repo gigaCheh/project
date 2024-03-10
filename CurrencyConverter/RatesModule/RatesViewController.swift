@@ -7,7 +7,7 @@
 import Foundation
 import UIKit
 
-class ViewController: UIViewController {
+final class RatesViewController: UIViewController {
     
     private var responseLatest: [LatestRatesService.Response] = []
     private var responseSymbols: [SymbolsService.Response] = []
@@ -25,7 +25,9 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .yellow
         
+        /*
         ratesService.fetchRates(symbols: ["USD", "EUR", "JPY", "AUD"], base: "RUB") { [weak self] (result: Result<LatestRatesService.Model, ApiClientError>) in
             print(">>>>")
             print(result)
@@ -35,9 +37,10 @@ class ViewController: UIViewController {
         
         symbolsService.fetchSymbols { [weak self] (result: Result<SymbolsService.Symbols, ApiClientError>) in
 //            print(">>>>")
-//            print(result)
+            print(result)
 //            print(">>>>")
         }
+        */
     }
 }
 
