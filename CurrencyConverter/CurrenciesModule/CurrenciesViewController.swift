@@ -8,10 +8,18 @@
 import Foundation
 import UIKit
 
-final class CurrenciesViewController: UIViewController {
+final class CurrenciesViewController: UIViewController,UITableViewDelegate {
 
+    var myTableView = UITableView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .green
+        
+        self.myTableView = UITableView(frame: view.bounds, style: .plain)
+        self.myTableView.delegate = self
+        
+        view.addSubview(myTableView)
+        
     }
 }
