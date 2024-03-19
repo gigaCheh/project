@@ -17,7 +17,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let mainWindow = UIWindow(frame: UIScreen.main.bounds)
         window = mainWindow
         
-        let mainVC = RatesViewController()
+        let symbols: SymbolsService.Symbols = .init(items: [
+            .init(id: "USD", description: "CDCC"),
+            .init(id: "SSS", description: "DFDDF")
+            ]
+        )
+        
+        let mainVC = CurrenciesViewController(
+            symbols: symbols,
+            selectedIds: ["EUR", "USD"],
+            isMultipleMode: false
+        )
         
         let navController = UINavigationController(rootViewController: mainVC)
 
