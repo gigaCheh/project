@@ -11,6 +11,8 @@ import UIKit
 final class CurrenciesViewController: UIViewController, UITableViewDelegate {
 
     private var myTableView = UITableView()
+    private var errorView = UIView()
+    private var loadingView = UIView()
     
     private var symbols: SymbolsService.Symbols
     private var selectedIds: Set<CurrencyId>
