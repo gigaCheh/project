@@ -39,7 +39,7 @@ final class RatesViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        dataSource = ["AED"United Arab Emirates Dirham", "AFN - Afghan Afghani", "ALL - Albanian Lek",
+        dataSource = ["AED - United Arab Emirates Dirham", "AFN - Afghan Afghani", "ALL - Albanian Lek",
                       "AMD - Armenian Dram", "ANG - Netherlands Antillean Guilder", "AOA - Angola Kwanza",
                       "AWG - Aruban Florin", "AUD - Australian Dollar", "ARS - Argentine Peso",
                       "AZN - Azerbaijani Manat", "BAM - Bosnia-Herzegovina Convertible Mark", "BBD - Barbadian Dollar",
