@@ -19,6 +19,8 @@
 		0891827B2B62A8FF005C11B1 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0891827A2B62A8FF005C11B1 /* APIError.swift */; };
 		0891827E2B62BBD1005C11B1 /* NetworkClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0891827D2B62BBD1005C11B1 /* NetworkClient.swift */; };
 		08BA41BF2B7BBA0300319EE2 /* APIKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08BA41BE2B7BBA0300319EE2 /* APIKey.swift */; };
+		8E0603D02BB85D7B0003280E /* ErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0603CF2BB85D7B0003280E /* ErrorView.swift */; };
+		8E0603D22BB85E470003280E /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E0603D12BB85E470003280E /* LoadingView.swift */; };
 		8E2E7BC82BA98E34000269A6 /* CurrenciesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E2E7BC72BA98E34000269A6 /* CurrenciesCell.swift */; };
 		8E567B2D2B9E195D000A4BEF /* CurrenciesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E567B2C2B9E195D000A4BEF /* CurrenciesViewController.swift */; };
 		8E63AD7F2B7145700088C6CC /* CommonModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E63AD7E2B7145700088C6CC /* CommonModels.swift */; };
@@ -62,6 +64,8 @@
 		0891827A2B62A8FF005C11B1 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		0891827D2B62BBD1005C11B1 /* NetworkClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkClient.swift; sourceTree = "<group>"; };
 		08BA41BE2B7BBA0300319EE2 /* APIKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKey.swift; sourceTree = "<group>"; };
+		8E0603CF2BB85D7B0003280E /* ErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorView.swift; sourceTree = "<group>"; };
+		8E0603D12BB85E470003280E /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		8E2E7BC72BA98E34000269A6 /* CurrenciesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesCell.swift; sourceTree = "<group>"; };
 		8E567B2C2B9E195D000A4BEF /* CurrenciesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrenciesViewController.swift; sourceTree = "<group>"; };
 		8E63AD7E2B7145700088C6CC /* CommonModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonModels.swift; sourceTree = "<group>"; };
@@ -119,6 +123,7 @@
 		081E60EE2B3DC9AF004CEBD5 /* CurrencyConverter */ = {
 			isa = PBXGroup;
 			children = (
+				8E0603CE2BB85D6A0003280E /* Views */,
 				8E567B2B2B9E17E7000A4BEF /* CurrenciesModule */,
 				8E567B2A2B9E17D7000A4BEF /* RatesModule */,
 				081E611F2B3DC9CC004CEBD5 /* API */,
@@ -194,6 +199,15 @@
 				08BA41BE2B7BBA0300319EE2 /* APIKey.swift */,
 			);
 			path = Key;
+			sourceTree = "<group>";
+		};
+		8E0603CE2BB85D6A0003280E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8E0603CF2BB85D7B0003280E /* ErrorView.swift */,
+				8E0603D12BB85E470003280E /* LoadingView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		8E567B2A2B9E17D7000A4BEF /* RatesModule */ = {
@@ -348,11 +362,13 @@
 				8E567B2D2B9E195D000A4BEF /* CurrenciesViewController.swift in Sources */,
 				089182762B62A43D005C11B1 /* LatestRatesResponseModel.swift in Sources */,
 				081E60F02B3DC9AF004CEBD5 /* AppDelegate.swift in Sources */,
+				8E0603D22BB85E470003280E /* LoadingView.swift in Sources */,
 				8E63AD812B7146F70088C6CC /* LatestRatesService.swift in Sources */,
 				8E63AD832B7147880088C6CC /* LatestRatesModel.swift in Sources */,
 				8E63AD7F2B7145700088C6CC /* CommonModels.swift in Sources */,
 				089182782B62A458005C11B1 /* SymbolsResponseModel.swift in Sources */,
 				0891827E2B62BBD1005C11B1 /* NetworkClient.swift in Sources */,
+				8E0603D02BB85D7B0003280E /* ErrorView.swift in Sources */,
 				0891827B2B62A8FF005C11B1 /* APIError.swift in Sources */,
 				08BA41BF2B7BBA0300319EE2 /* APIKey.swift in Sources */,
 				8E2E7BC82BA98E34000269A6 /* CurrenciesCell.swift in Sources */,

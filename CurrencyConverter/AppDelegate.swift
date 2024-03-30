@@ -18,14 +18,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = mainWindow
         
         let symbols: SymbolsService.Symbols = .init(items: [
-            .init(id: "USD", description: "CDCC"),
-            .init(id: "SSS", description: "DFDDF")
+            .init(id: "AED", description: "United Arab Emirates Dirham"),
+            .init(id: "AFN", description: "Afghan Afghani"),
+            .init(id: "ALL", description: "Albanian Lek"),
+            .init(id: "AMD", description: "Armenian Dram"),
+            .init(id: "BTC", description: "Bitcoin"),
+            .init(id: "BTN", description: "Bhutanese Ngultrum"),
+            .init(id: "BWP", description: "Botswanan Pula"),            
             ]
         )
         
+            /*
+        dataSource = [
+                      "AMD - Armenian Dram", "ANG - Netherlands Antillean Guilder", "AOA - Angola Kwanza",
+                      "AWG - Aruban Florin", "AUD - Australian Dollar", "ARS - Argentine Peso",
+                      "AZN - Azerbaijani Manat", "BAM - Bosnia-Herzegovina Convertible Mark", "BBD - Barbadian Dollar",
+                      "BDT - Bangladeshi Taka", "BGN - Bulgarian Lev", "BHD - Bahraini Dinar",
+                      "BIF - Burundian Franc", "BMD - Bermudan Dollar", "BND - Brunei Dollar",
+                      "BOB - Bolivian Boliviano", "BRL - Brazilian Real", "BSD - Bahamian Dollar",
+                      "BTC - Bitcoin", "BTN - Bhutanese Ngultrum", "BWP - Botswanan Pula",]
+        */
+        
         let mainVC = CurrenciesViewController(
             symbols: symbols,
-            selectedIds: ["EUR", "USD"],
+            selectedIds: ["AED"],
             isMultipleMode: false
         )
         
