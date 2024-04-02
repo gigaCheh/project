@@ -107,13 +107,12 @@ extension CurrenciesViewController: UITableViewDelegate {
         if isMultipleMode {
             if selectedIds.contains(currency.id) {
                 selectedIds.remove(currency.id)
-            } else {
-                selectedIds.insert(currency.id)
             }
         } else {
             selectedIds.removeAll()
-            selectedIds.insert(currency.id)
         }
+        
+        selectedIds.insert(currency.id)
         
         tableView.reloadData()
     }
