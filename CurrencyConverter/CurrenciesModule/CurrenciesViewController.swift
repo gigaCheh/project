@@ -67,6 +67,7 @@ final class CurrenciesViewController: UIViewController {
         view.addSubview(errorView)
         view.addSubview(loadingView)
         
+        //view.bringSubviewToFront(errorView)
         setupLayout()
         setupNavigationBar()
     }
@@ -120,13 +121,13 @@ extension CurrenciesViewController: UITableViewDelegate {
 }
 
 private extension CurrenciesViewController {
-
+    
     func setupLayout() {
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
         errorView.translatesAutoresizingMaskIntoConstraints = false
         loadingView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         [tableView, errorView, loadingView].forEach {
             NSLayoutConstraint.activate([
                 $0.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -141,12 +142,7 @@ private extension CurrenciesViewController {
         
         navigationController?.navigationBar.prefersLargeTitles = true
         
-        let editAction = UIAction { _ in
-            print("Tapped")
-        }
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Currencies",
-                                                           primaryAction: editAction, menu: nil)
+        
     }
-    
 }

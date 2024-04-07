@@ -14,6 +14,7 @@
 		081E61072B3DC9B0004CEBD5 /* Currency_ConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081E61062B3DC9B0004CEBD5 /* Currency_ConverterTests.swift */; };
 		081E61112B3DC9B0004CEBD5 /* Currency_ConverterUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081E61102B3DC9B0004CEBD5 /* Currency_ConverterUITests.swift */; };
 		081E61132B3DC9B0004CEBD5 /* Currency_ConverterUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081E61122B3DC9B0004CEBD5 /* Currency_ConverterUITestsLaunchTests.swift */; };
+		082071952BC15DDD00A54323 /* RatesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 082071942BC15DDD00A54323 /* RatesCell.swift */; };
 		089182762B62A43D005C11B1 /* LatestRatesResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089182752B62A43D005C11B1 /* LatestRatesResponseModel.swift */; };
 		089182782B62A458005C11B1 /* SymbolsResponseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 089182772B62A458005C11B1 /* SymbolsResponseModel.swift */; };
 		0891827B2B62A8FF005C11B1 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0891827A2B62A8FF005C11B1 /* APIError.swift */; };
@@ -59,6 +60,7 @@
 		081E610C2B3DC9B0004CEBD5 /* CurrencyConverterUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CurrencyConverterUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		081E61102B3DC9B0004CEBD5 /* Currency_ConverterUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency_ConverterUITests.swift; sourceTree = "<group>"; };
 		081E61122B3DC9B0004CEBD5 /* Currency_ConverterUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency_ConverterUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		082071942BC15DDD00A54323 /* RatesCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RatesCell.swift; sourceTree = "<group>"; };
 		089182752B62A43D005C11B1 /* LatestRatesResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatestRatesResponseModel.swift; sourceTree = "<group>"; };
 		089182772B62A458005C11B1 /* SymbolsResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolsResponseModel.swift; sourceTree = "<group>"; };
 		0891827A2B62A8FF005C11B1 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 			isa = PBXGroup;
 			children = (
 				081E60F32B3DC9AF004CEBD5 /* RatesViewController.swift */,
+				082071942BC15DDD00A54323 /* RatesCell.swift */,
 			);
 			path = RatesModule;
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 				081E60F02B3DC9AF004CEBD5 /* AppDelegate.swift in Sources */,
 				8E0603D22BB85E470003280E /* LoadingView.swift in Sources */,
 				8E63AD812B7146F70088C6CC /* LatestRatesService.swift in Sources */,
+				082071952BC15DDD00A54323 /* RatesCell.swift in Sources */,
 				8E63AD832B7147880088C6CC /* LatestRatesModel.swift in Sources */,
 				8E63AD7F2B7145700088C6CC /* CommonModels.swift in Sources */,
 				089182782B62A458005C11B1 /* SymbolsResponseModel.swift in Sources */,
