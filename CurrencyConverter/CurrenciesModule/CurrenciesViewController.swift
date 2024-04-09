@@ -66,8 +66,7 @@ final class CurrenciesViewController: UIViewController {
         view.addSubview(tableView)
         view.addSubview(errorView)
         view.addSubview(loadingView)
-        
-        //view.bringSubviewToFront(errorView)
+                
         setupLayout()
         setupNavigationBar()
     }
@@ -120,6 +119,11 @@ extension CurrenciesViewController: UITableViewDelegate {
 }
 
 private extension CurrenciesViewController {
+    
+    func showError() {
+        view.bringSubviewToFront(errorView)
+        
+    }
     
     func setupLayout() {
         

@@ -29,6 +29,7 @@ final class RatesViewController: UIViewController {
         let table = UITableView()
         table.dataSource = self
         table.delegate = self
+        // TODO: сделать custom cell !!! RatesCell
         table.register(UITableViewCell.self, forCellReuseIdentifier: "ID")
         table.backgroundColor = .white
         table.isScrollEnabled = false
@@ -37,30 +38,13 @@ final class RatesViewController: UIViewController {
         return table
     }()
     
-    var dataSource: [String] = []
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    let contentView: UIView = {
+        let view = UIView(frame: CGRect(x: 12, y: 210, width: 370, height: 45))
+        view.backgroundColor = .systemBlue
+        view.layer.cornerRadius = 5
         
-        dataSource = ["Valute 1", "Valute 2", "Valute 3"]
-        
-        title = "Currencies 💱"
-        
-        view.backgroundColor = .white
-        view.addSubview(tableView)
-        
-        contentView.addSubview(fromLabel)
-        contentView.addSubview(toLabel)
-        contentView.addSubview(sumField)
-        contentView.addSubview(idLabel)
-        contentView.addSubview(desLabel)
-        
-        //setupConstraints()
-        setupViews()
-        setupLayout()
-        setupNavigationBar()
-    }
-    
+        return view
+    }()
     
     private lazy var fromLabel: UILabel = {
         
@@ -123,6 +107,32 @@ final class RatesViewController: UIViewController {
         
         return txtName
     }()
+    
+    var dataSource: [String] = []
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        dataSource = ["Valute 1", "Valute 2", "Valute 3"]
+        
+        title = "Currencies 💱"
+        
+        view.backgroundColor = .white
+        view.addSubview(tableView)
+        
+        contentView.addSubview(fromLabel)
+        contentView.addSubview(toLabel)
+        contentView.addSubview(sumField)
+        contentView.addSubview(idLabel)
+        contentView.addSubview(desLabel)
+        
+        //setupConstraints()
+        setupViews()
+        setupLayout()
+        setupNavigationBar()
+    }
+    
+    
     /*
     func setupConstraints() {
         self.view.translatesAutoresizingMaskIntoConstraints = false
@@ -134,17 +144,9 @@ final class RatesViewController: UIViewController {
     }
     */
     func setupViews() {
-        self.view.addSubview(contentView)
+        view.addSubview(contentView)
         
     }
-    
-    let contentView: UIView = {
-        let view = UIView(frame: CGRect(x: 12, y: 210, width: 370, height: 45))
-        view.backgroundColor = .systemBlue
-        view.layer.cornerRadius = 5
-        
-        return view
-    }()
 }
     
 extension RatesViewController: UITableViewDelegate, UITableViewDataSource {
@@ -170,24 +172,14 @@ private extension RatesViewController {
     func setupLayout() {
         
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.backgroundColor = .yellow
         
         NSLayoutConstraint.activate([
-            tableView.widthAnchor.constraint(equalToConstant: 350),
-            tableView.heightAnchor.constraint(equalToConstant: 300),
-            tableView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
-            tableView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor)
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20.0),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20.0),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 300),
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-        /*
-        let topConstraint = tableView.topAnchor.constraint(equalTo: view.topAnchor)
-        let leftConstraint = tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
-        let bottomConstraint = tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        let rightConstraint = tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        
-        topConstraint.isActive = true
-        leftConstraint.isActive = true
-        bottomConstraint.isActive = true
-        rightConstraint.isActive = true
-        */
     }
     
     func setupNavigationBar() {

@@ -10,27 +10,21 @@ import UIKit
 final class ErrorView: UIView {
     
     private lazy var errorImageView: UIImageView = {
-        
-        guard let image = UIImage(named: "dashboard_error_image") else { return UIImageView() }
-        let imageView = UIImageView(image: image)
-        imageView.accessibilityIdentifier = "CourseDashboardErrorView:error-imageView"
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        
-        return imageView
+        let view = UIImageView()
+        view.accessibilityIdentifier = "CourseDashboardErrorView:error-imageView"
+        return view
     }()// UIImage
     
     private lazy var errorLabel: UILabel = {
-        
         let label = UILabel()
         label.accessibilityIdentifier = "GeneralErrorView:error:label"
         label.numberOfLines = 0
         label.text = "Error Occured"
         label.textColor = .black
-        
         return label
     }()// label
     
-    private lazy var errorActionButton: UIButton = {
+    private lazy var retryButton: UIButton = {
         
         let button = UIButton(type: .system)
         button.accessibilityIdentifier = "GeneralErrorView:error-action-button"
@@ -63,9 +57,14 @@ private extension ErrorView {
 
     func setupSubviews() {
         backgroundColor = .white
+        
+        addSubview(errorImageView)
+        addSubview(errorLabel)
+        addSubview(retryButton)
     }
 
     func setupConstraints() {
+        // TODO: layout + размеры
         
     }
 }
