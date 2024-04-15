@@ -12,7 +12,7 @@ final class CurrenciesViewController: UIViewController {
 
     private lazy var errorView: ErrorView = {
         let view = ErrorView()
-        view.isHidden = true
+        view.isHidden = false
         return view
     }()
     
@@ -68,6 +68,7 @@ final class CurrenciesViewController: UIViewController {
         view.addSubview(loadingView)
                 
         setupLayout()
+        showError()
         setupNavigationBar()
     }
 }
@@ -121,6 +122,7 @@ extension CurrenciesViewController: UITableViewDelegate {
 private extension CurrenciesViewController {
     
     func showError() {
+        
         view.bringSubviewToFront(errorView)
         
     }

@@ -52,7 +52,7 @@ final class ErrorView: UIView {
 private extension ErrorView {
     func commonInit() {
         setupSubviews()
-        setupConstraints()
+        //setupConstraints()
     }
 
     func setupSubviews() {
@@ -64,7 +64,20 @@ private extension ErrorView {
     }
 
     func setupConstraints() {
-        // TODO: layout + размеры
+        
+        errorImageView.translatesAutoresizingMaskIntoConstraints = false
+        errorLabel.translatesAutoresizingMaskIntoConstraints = false
+        retryButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        [errorImageView, errorLabel, retryButton].forEach {
+            NSLayoutConstraint.activate([
+                $0.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+                $0.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+                $0.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
+                $0.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20)
+            ])
+        }// TODO: layout + размеры
         
     }
+ 
 }

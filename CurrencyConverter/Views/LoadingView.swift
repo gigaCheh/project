@@ -26,7 +26,7 @@ private extension LoadingView {
     
     func commonInit() {
         setupSubviews()
-        setupConstraints()
+        //setupConstraints()
     }
 
     func setupSubviews() {
@@ -35,10 +35,18 @@ private extension LoadingView {
     }
 
     func setupConstraints() {
-        // TODO: activityIndicatorView - 40x40 + по центру
         
-        activityIndicatorView.frame = CGRect(x: 0.0, y: 0.0, width: 40.0, height: 40.0)
+        activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            activityIndicatorView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            activityIndicatorView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            activityIndicatorView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20),
+            activityIndicatorView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
+                                    ])
         activityIndicatorView.startAnimating()
+        // TODO: activityIndicatorView - 40x40 + по центру
     }
+ 
 }
 

@@ -30,13 +30,29 @@ final class RatesViewController: UIViewController {
         table.dataSource = self
         table.delegate = self
         // TODO: сделать custom cell !!! RatesCell
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "ID")
+        table.register(RatesCell.self, forCellReuseIdentifier: RatesCell.id)
         table.backgroundColor = .white
         table.isScrollEnabled = false
         view.addSubview(table)
         
         return table
     }()
+    
+    
+    private var rates: LatestRatesService.Model
+    
+    init(rates: LatestRatesService.Model) {
+        
+        self.rates = LatestRatesService.Model(baseCurrencyId: rates.baseCurrencyId, date: rates.date, rates: rates.rates)
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
     let contentView: UIView = {
         let view = UIView(frame: CGRect(x: 12, y: 210, width: 370, height: 45))
@@ -153,13 +169,19 @@ extension RatesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return dataSource.count
+        return rates.rates.count
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ID", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: RatesCell.id, for: indexPath) as? RatesCell else {
+            return UITableViewCell()
+        }
+        
+        let latestRates = rates.baseCurrencyId[indexPath.row]
+        
+        let model = RatesCell.Model(curName: <#T##String#>, curDesc: <#T##String#>, curImage: <#T##UIImage#>)
         
         return cell
     }

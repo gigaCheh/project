@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                       "BTC - Bitcoin", "BTN - Bhutanese Ngultrum", "BWP - Botswanan Pula",]
         */
         
-        let mainVC = RatesViewController()/*(
+        let mainVC = RatesViewController(rates:)/*(
             symbols: symbols,
             selectedIds: ["AED"],
             isMultipleMode: false
