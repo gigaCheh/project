@@ -5,10 +5,10 @@
 //  Created by Dmitriy Mirovodin on 19.03.2024.
 //
 
-import Foundation
 import UIKit
 
 final class CurrenciesCell: UITableViewCell {
+    
     static let id = "CurrenciesCellId"
     
     struct Model {
@@ -19,19 +19,8 @@ final class CurrenciesCell: UITableViewCell {
     private let currencyNameLabel: UILabel = {
         let label = UILabel()
         label.textColor = .black
-        //
         return label
     }()
-    
-    func update(model: Model) {
-        currencyNameLabel.text = model.text
-        accessoryType = model.isSelected ? .checkmark : .none
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -53,6 +42,11 @@ final class CurrenciesCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         currencyNameLabel.text = nil
+    }
+    
+    func update(model: Model) {
+        currencyNameLabel.text = model.text
+        accessoryType = model.isSelected ? .checkmark : .none
     }
 }
 

@@ -39,13 +39,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                       "BTC - Bitcoin", "BTN - Bhutanese Ngultrum", "BWP - Botswanan Pula",]
         */
         
-        let mainVC = RatesViewController(rates:)/*(
+        
+        let viewController = TestViewController()
+        
+        /*
+        let mainVC = RatesViewController(rates:)
             symbols: symbols,
             selectedIds: ["AED"],
             isMultipleMode: false
         )*/
         
-        let navController = UINavigationController(rootViewController: mainVC)
+        let navController = UINavigationController(rootViewController: viewController)
 
         window?.rootViewController = navController
 

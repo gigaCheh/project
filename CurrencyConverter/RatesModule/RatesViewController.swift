@@ -23,13 +23,11 @@ final class RatesViewController: UIViewController {
         return LatestRatesService.Service(networkService: networkService)
     }()
     
-    
     private lazy var tableView: UITableView = {
         
         let table = UITableView()
         table.dataSource = self
         table.delegate = self
-        // TODO: сделать custom cell !!! RatesCell
         table.register(RatesCell.self, forCellReuseIdentifier: RatesCell.id)
         table.backgroundColor = .white
         table.isScrollEnabled = false
@@ -168,8 +166,8 @@ final class RatesViewController: UIViewController {
 extension RatesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return rates.rates.count
+        [0,1].filter(<#T##isIncluded: (Int) throws -> Bool##(Int) throws -> Bool#>)
+        return 10 // rates.rates.count
     }
     
     
@@ -179,11 +177,11 @@ extension RatesViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let latestRates = rates.baseCurrencyId[indexPath.row]
+        //let latestRates = rates.baseCurrencyId[indexPath.row]
         
-        let model = RatesCell.Model(curName: <#T##String#>, curDesc: <#T##String#>, curImage: <#T##UIImage#>)
+        let model = RatesCell.Model(curName: String, curDesc: <#T##String#>, curImage: UIImage)
         
-        return cell
+        return UITableViewCell()
     }
     
     

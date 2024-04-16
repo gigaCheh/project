@@ -96,6 +96,7 @@ extension CurrenciesViewController: UITableViewDataSource {
         cell.update(model: model)
         return cell
     }
+
 }
 
 extension CurrenciesViewController: UITableViewDelegate {
