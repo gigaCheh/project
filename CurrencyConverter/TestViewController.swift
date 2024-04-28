@@ -23,4 +23,16 @@ final class TestViewController: UIViewController {
     override func loadView() {
         view = testView
     }
+    
+    /*
+    override func viewDidLoad() {
+         super.viewDidLoad()
+         
+         let customCell = RatesCell()
+         customCell.frame = CGRect(x: 0, y: 300, width: view.frame.width, height: 100)
+         
+         view.addSubview(customCell)
+     }
+     */
 }
+

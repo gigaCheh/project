@@ -40,16 +40,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         */
         
         
-        let viewController = TestViewController()
+        //let viewController =
         
-        /*
-        let mainVC = RatesViewController(rates:)
-            symbols: symbols,
-            selectedIds: ["AED"],
-            isMultipleMode: false
-        )*/
         
-        let navController = UINavigationController(rootViewController: viewController)
+        let mainVC = RatesViewController()
+        
+        let navController = UINavigationController(rootViewController: mainVC)
 
         window?.rootViewController = navController
 

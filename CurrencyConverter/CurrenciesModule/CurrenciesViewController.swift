@@ -12,7 +12,7 @@ final class CurrenciesViewController: UIViewController {
 
     private lazy var errorView: ErrorView = {
         let view = ErrorView()
-        view.isHidden = false
+        view.isHidden = true
         return view
     }()
     

@@ -23,12 +23,26 @@ final class RatesViewController: UIViewController {
         return LatestRatesService.Service(networkService: networkService)
     }()
     
+    
+    private lazy var errorView: ErrorView = {
+        let view = ErrorView()
+        view.isHidden = false
+        return view
+    }()
+    
+    private var loadingView: LoadingView = {
+        let view = LoadingView()
+        view.isHidden = true
+        return view
+    }()
+    
+    
     private lazy var tableView: UITableView = {
         
         let table = UITableView()
         table.dataSource = self
         table.delegate = self
-        table.register(RatesCell.self, forCellReuseIdentifier: RatesCell.id)
+        table.register(UITableViewCell.self, forCellReuseIdentifier: "ID")
         table.backgroundColor = .white
         table.isScrollEnabled = false
         view.addSubview(table)
@@ -36,7 +50,7 @@ final class RatesViewController: UIViewController {
         return table
     }()
     
-    
+    /*
     private var rates: LatestRatesService.Model
     
     init(rates: LatestRatesService.Model) {
@@ -50,10 +64,10 @@ final class RatesViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+     */
     
     let contentView: UIView = {
-        let view = UIView(frame: CGRect(x: 12, y: 210, width: 370, height: 45))
+        let view = UIView()
         view.backgroundColor = .systemBlue
         view.layer.cornerRadius = 5
         
@@ -63,7 +77,6 @@ final class RatesViewController: UIViewController {
     private lazy var fromLabel: UILabel = {
         
         let labelF = UILabel()
-        labelF.frame = CGRect(x: 0, y: -50, width: 80, height: 50)
         labelF.text = "From:"
         labelF.textColor = .gray
        
@@ -73,7 +86,6 @@ final class RatesViewController: UIViewController {
     private lazy var toLabel: UILabel = {
     
         let labelT = UILabel()
-        labelT.frame = CGRect(x: 0, y: 40, width: 80, height: 50)
         labelT.text = "To:"
         labelT.textColor = .gray
         labelT.numberOfLines = 0
@@ -91,7 +103,6 @@ final class RatesViewController: UIViewController {
     private lazy var idLabel: UILabel = {
         
         let cLabel = UILabel()
-        cLabel.frame = CGRect(x: 43, y: -15, width: 50, height: 50)
         cLabel.text = "SEK"
         cLabel.font = cLabel.font.withSize(15)
         cLabel.textColor = .white
@@ -102,7 +113,6 @@ final class RatesViewController: UIViewController {
     private lazy var desLabel: UILabel = {
     
         let dLabel = UILabel()
-        dLabel.frame = CGRect(x: 43, y: 10, width: 100, height: 50)
         dLabel.text = "Swedish krona"
         dLabel.font = dLabel.font.withSize(15)
         dLabel.textColor = .white
@@ -112,8 +122,6 @@ final class RatesViewController: UIViewController {
     
     private lazy var sumField: UITextField = {
         var txtName = UITextField()
-        txtName = UITextField.init(frame: CGRect.init(x: 300, y: 10,
-                                                      width: 30, height: 10))
         txtName.placeholder = "Sum"
         txtName.textColor = .black
         txtName.sizeToFit()
@@ -133,64 +141,111 @@ final class RatesViewController: UIViewController {
         
         view.backgroundColor = .white
         view.addSubview(tableView)
+        view.addSubview(errorView)
+        view.addSubview(loadingView)
         
-        contentView.addSubview(fromLabel)
-        contentView.addSubview(toLabel)
-        contentView.addSubview(sumField)
-        contentView.addSubview(idLabel)
-        contentView.addSubview(desLabel)
         
-        //setupConstraints()
+        showError()
+        setupConstraints()
         setupViews()
         setupLayout()
         setupNavigationBar()
     }
     
     
-    /*
+    
     func setupConstraints() {
-        self.view.translatesAutoresizingMaskIntoConstraints = false
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 10).isActive = true
-        view.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
-        view.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: 10).isActive = true
-        view.bottomAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 0).isActive = true
+        
+        contentView.addSubview(fromLabel)
+        contentView.addSubview(toLabel)
+        contentView.addSubview(sumField)
+        contentView.addSubview(idLabel)
+        contentView.addSubview(desLabel)
+     
+        fromLabel.translatesAutoresizingMaskIntoConstraints = false
+        toLabel.translatesAutoresizingMaskIntoConstraints = false
+        sumField.translatesAutoresizingMaskIntoConstraints = false
+        idLabel.translatesAutoresizingMaskIntoConstraints = false
+        desLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            fromLabel.centerXAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 40),
+            fromLabel.centerYAnchor.constraint(equalTo: contentView.topAnchor, constant: -20),
+            fromLabel.widthAnchor.constraint(equalToConstant: 80),
+            fromLabel.heightAnchor.constraint(equalToConstant: 50)
+        ])
+        
+        NSLayoutConstraint.activate([
+            toLabel.centerXAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 40),
+            toLabel.centerYAnchor.constraint(equalTo: contentView.topAnchor, constant: 65),
+            toLabel.widthAnchor.constraint(equalToConstant: 80),
+            toLabel.heightAnchor.constraint(equalToConstant: 50)
+        ])
+        
+        NSLayoutConstraint.activate([
+            sumField.centerXAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -50),
+            sumField.centerYAnchor.constraint(equalTo: contentView.topAnchor, constant: 22),
+            sumField.widthAnchor.constraint(equalToConstant: 50),
+            sumField.heightAnchor.constraint(equalToConstant: 30)
+        ])
+        
+        NSLayoutConstraint.activate([
+            idLabel.centerXAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 75),
+            idLabel.centerYAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -35),
+            idLabel.widthAnchor.constraint(equalToConstant: 50),
+            idLabel.heightAnchor.constraint(equalToConstant: 30)
+        ])
+        
+        NSLayoutConstraint.activate([
+            desLabel.centerXAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 100),
+            desLabel.centerYAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            desLabel.widthAnchor.constraint(equalToConstant: 100),
+            desLabel.heightAnchor.constraint(equalToConstant: 50)
+        ])
     }
-    */
+    
     func setupViews() {
         view.addSubview(contentView)
         
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            contentView.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -200),
+            contentView.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            contentView.widthAnchor.constraint(equalToConstant: 370),
+            contentView.heightAnchor.constraint(equalToConstant: 45)
+        ])
     }
 }
     
 extension RatesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        [0,1].filter(<#T##isIncluded: (Int) throws -> Bool##(Int) throws -> Bool#>)
-        return 10 // rates.rates.count
+        return dataSource.count
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: RatesCell.id, for: indexPath) as? RatesCell else {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ID", for: indexPath)
             return UITableViewCell()
         }
         
         //let latestRates = rates.baseCurrencyId[indexPath.row]
         
-        let model = RatesCell.Model(curName: String, curDesc: <#T##String#>, curImage: UIImage)
+        //let model = RatesCell.Model(curName: <#T##String#>, curDesc: <#T##String#>, curImage: <#T##UIImage#>, rate: <#T##String#>, rateDescription: <#T##String#>)
         
-        return UITableViewCell()
     }
     
     
-}
+
 
 private extension RatesViewController {
 
     func setupLayout() {
         
+        loadingView.translatesAutoresizingMaskIntoConstraints = false
+        errorView.translatesAutoresizingMaskIntoConstraints = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = .yellow
         
@@ -200,7 +255,24 @@ private extension RatesViewController {
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 300),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+        
+        [errorView, loadingView].forEach {
+            NSLayoutConstraint.activate([
+                $0.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                $0.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                $0.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+                $0.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            ])
+        }
     }
+    
+    
+    func showError() {
+        
+        view.bringSubviewToFront(errorView)
+        
+    }
+    
     
     func setupNavigationBar() {
         
