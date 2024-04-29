@@ -66,11 +66,10 @@ final class RatesViewController: UIViewController {
     }
      */
     
-    let contentView: UIView = {
+    private let contentView: UIView = {
         let view = UIView()
         view.backgroundColor = .systemBlue
         view.layer.cornerRadius = 5
-        
         return view
     }()
     
@@ -152,8 +151,6 @@ final class RatesViewController: UIViewController {
         setupNavigationBar()
     }
     
-    
-    
     func setupConstraints() {
         
         contentView.addSubview(fromLabel)
@@ -227,18 +224,13 @@ extension RatesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ID", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: RatesCell.id, for: indexPath) as? RatesCell else {
             return UITableViewCell()
         }
         
-        //let latestRates = rates.baseCurrencyId[indexPath.row]
-        
-        //let model = RatesCell.Model(curName: <#T##String#>, curDesc: <#T##String#>, curImage: <#T##UIImage#>, rate: <#T##String#>, rateDescription: <#T##String#>)
-        
+        return cell
     }
-    
-    
-
+}
 
 private extension RatesViewController {
 
@@ -268,9 +260,7 @@ private extension RatesViewController {
     
     
     func showError() {
-        
         view.bringSubviewToFront(errorView)
-        
     }
     
     
