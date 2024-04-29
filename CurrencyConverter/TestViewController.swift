@@ -9,7 +9,15 @@ import UIKit
 
 final class TestViewController: UIViewController {
     
-    private let testView = LoadingView()
+    private lazy var tableView: UITableView = {
+        let table = UITableView()
+        table.dataSource = self
+        table.delegate = self
+        table.register(RatesCell.self, forCellReuseIdentifier: RatesCell.id)
+        table.backgroundColor = .white
+        table.isScrollEnabled = false
+        return table
+    }()
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -21,18 +29,37 @@ final class TestViewController: UIViewController {
     }
     
     override func loadView() {
-        view = testView
+        view = tableView
     }
     
-    /*
     override func viewDidLoad() {
-         super.viewDidLoad()
-         
-         let customCell = RatesCell()
-         customCell.frame = CGRect(x: 0, y: 300, width: view.frame.width, height: 100)
-         
-         view.addSubview(customCell)
-     }
-     */
+        super.viewDidLoad()
+        tableView.reloadData()
+    }
 }
 
+extension TestViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: RatesCell.id, for: indexPath) as? RatesCell else {
+            return UITableViewCell()
+        }
+            
+        let model = RatesCell.Model(
+            curName: "GBP",
+            curDesc: "Pound sterling Pound sterling Pound sterling Pound sterling",
+            curImage: UIImage(named: "JPY"),
+            rate: "3242.492057",
+            rateDescription: "1 GBP = 11.766905 SEK"
+        )
+        
+        cell.update(model: model)
+        return cell
+    }
+  
+}

@@ -14,7 +14,7 @@ final class RatesCell: UITableViewCell {
     struct Model {
         let curName: String  // "GBP"
         let curDesc: String  // "Pound sterling"
-        let curImage: UIImage
+        let curImage: UIImage?
         let rate: String  // "42.492057"
         let rateDescription: String // "1 GBP = 11.766905 SEK"
     }
@@ -23,15 +23,13 @@ final class RatesCell: UITableViewCell {
         let label = UILabel()
         label.text = "GBP"
         label.textColor = .black
+//        label.lineBreakMode = .
         return label
     }()
     
     private let currencyDescLabel: UILabel = {
         let label = UILabel()
         label.text = "Pound sterling"
-        //label.numberOfLines = 0
-        //label.setContentCompressionResistancePriority(.required, for: .horizontal)
-        //label.sizeToFit()
         label.font = UIFont.systemFont(ofSize: 13)
         label.textColor = .gray
         return label
@@ -40,6 +38,7 @@ final class RatesCell: UITableViewCell {
     private var currencyImage: UIImageView = {
         let image = UIImageView()
         image.backgroundColor = .blue
+        image.contentMode = .scaleAspectFit
         return image
     }()
     
@@ -47,6 +46,7 @@ final class RatesCell: UITableViewCell {
         let label = UILabel()
         label.text = "42.492057"
         label.textColor = .black
+        label.textAlignment = .right
         return label
     }()
     
@@ -55,32 +55,25 @@ final class RatesCell: UITableViewCell {
         label.text = "1 GBP = 11.766905 SEK"
         label.font = UIFont.systemFont(ofSize: 13)
         label.textColor = .gray
+        label.textAlignment = .right
         return label
+    }()
+    
+    private let topLineStack: UIStackView = {
+        let stack = UIStackView()
+        stack.distribution = .equalSpacing
+        stack.axis = .horizontal
+        stack.spacing = 8
+        return stack
     }()
         
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        let stackViewForName = UIStackView(arrangedSubviews: [currencyNameLabel, currencyRate])
-        stackViewForName.distribution = .equalSpacing
-        stackViewForName.axis = .horizontal
-        stackViewForName.spacing = 8
-
-        
-        
-        
-        let stackViewForDescription = UIStackView(arrangedSubviews: [currencyDescLabel, currencyRateDesc])
-        stackViewForDescription.distribution = .equalSpacing
-        stackViewForDescription.axis = .horizontal
-        stackViewForDescription.spacing = 8
-
-        
         contentView.backgroundColor = .white
         
-        addSubview(stackViewForName)
-        addSubview(stackViewForDescription)
-
         setupSubviews()
+        sutupConstrainst()
     }
     
     @available(*, unavailable)
@@ -94,7 +87,6 @@ final class RatesCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-
     }
     
     func update(model: Model) {
@@ -103,7 +95,6 @@ final class RatesCell: UITableViewCell {
         currencyImage.image = model.curImage
         currencyRate.text = model.rate
         currencyRateDesc.text = model.rateDescription
-        
     }
 }
 
@@ -111,50 +102,28 @@ private extension RatesCell {
     
     func setupSubviews() {
         contentView.addSubview(currencyImage)
-        contentView.addSubview(currencyNameLabel)
-        contentView.addSubview(currencyDescLabel)
-        contentView.addSubview(currencyRate)
-        contentView.addSubview(currencyRateDesc)
+        contentView.addSubview(topLineStack)
         
-        currencyNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        currencyDescLabel.translatesAutoresizingMaskIntoConstraints = false
-        currencyRate.translatesAutoresizingMaskIntoConstraints = false
-        currencyRateDesc.translatesAutoresizingMaskIntoConstraints = false
+        
+        topLineStack.addArrangedSubview(currencyNameLabel)
+        topLineStack.addArrangedSubview(currencyRate)
+        topLineStack.backgroundColor = .random()
+    }
+    
+    func sutupConstrainst() {
         currencyImage.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
-            currencyNameLabel.trailingAnchor.constraint(equalTo: currencyImage.trailingAnchor, constant: 40),
-            currencyNameLabel.topAnchor.constraint(equalTo: self.contentView.layoutMarginsGuide.topAnchor)
-            //currencyNameLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: 10)
-            //currencyNameLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor, constant: 20)
-            ])
-        
-        NSLayoutConstraint.activate([
-            currencyDescLabel.trailingAnchor.constraint(equalTo: currencyImage.trailingAnchor, constant: 55),
-            currencyDescLabel.leadingAnchor.constraint(equalTo: currencyImage.trailingAnchor, constant: 6),
-            currencyDescLabel.topAnchor.constraint(equalTo: self.contentView.layoutMarginsGuide.topAnchor),
-            currencyDescLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -10),
-            currencyDescLabel.widthAnchor.constraint(equalToConstant: 50)
+            currencyImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            currencyImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            currencyImage.widthAnchor.constraint(equalToConstant: 28),
+            currencyImage.heightAnchor.constraint(equalToConstant: 20)
         ])
         
+        topLineStack.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            currencyRate.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: -15),
-            currencyRate.topAnchor.constraint(equalTo: self.contentView.layoutMarginsGuide.topAnchor)
+            topLineStack.leadingAnchor.constraint(equalTo: currencyImage.trailingAnchor, constant: 10),
+            topLineStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            topLineStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 2)
         ])
-        
-        NSLayoutConstraint.activate([
-            currencyRateDesc.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: -15),
-            currencyRateDesc.topAnchor.constraint(equalTo: self.contentView.layoutMarginsGuide.topAnchor),
-            currencyRateDesc.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -10),
-            currencyDescLabel.widthAnchor.constraint(equalToConstant: 0)
-        ])
-        NSLayoutConstraint.activate([
-            currencyImage.topAnchor.constraint(equalTo: self.contentView.layoutMarginsGuide.topAnchor),
-            currencyImage.leadingAnchor.constraint(equalTo: self.contentView.layoutMarginsGuide.leadingAnchor),
-            currencyImage.widthAnchor.constraint(equalToConstant: 40),
-            currencyImage.heightAnchor.constraint(equalToConstant: 40)
-        ])
-        
-        
     }
 }

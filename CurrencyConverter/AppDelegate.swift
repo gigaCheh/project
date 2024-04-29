@@ -43,7 +43,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //let viewController =
         
         
-        let mainVC = RatesViewController()
+        //let mainVC = RatesViewController()
+        let mainVC = TestViewController()
         
         let navController = UINavigationController(rootViewController: mainVC)
 
