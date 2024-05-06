@@ -26,7 +26,7 @@ final class RatesViewController: UIViewController {
     
     private lazy var errorView: ErrorView = {
         let view = ErrorView()
-        view.isHidden = false
+        view.isHidden = true
         return view
     }()
     
@@ -42,7 +42,7 @@ final class RatesViewController: UIViewController {
         let table = UITableView()
         table.dataSource = self
         table.delegate = self
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "ID")
+        table.register(RatesCell.self, forCellReuseIdentifier: RatesCell.id)
         table.backgroundColor = .white
         table.isScrollEnabled = false
         view.addSubview(table)
@@ -50,7 +50,7 @@ final class RatesViewController: UIViewController {
         return table
     }()
     
-    /*
+    
     private var rates: LatestRatesService.Model
     
     init(rates: LatestRatesService.Model) {
@@ -64,7 +64,7 @@ final class RatesViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-     */
+     
     
     private let contentView: UIView = {
         let view = UIView()
@@ -146,19 +146,36 @@ final class RatesViewController: UIViewController {
         
         showError()
         setupConstraints()
+        setupSubviews()
         setupViews()
         setupLayout()
         setupNavigationBar()
     }
     
+    
+}
+    
+extension RatesViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return rates.baseCurrencyId.count
+    }
+    
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: RatesCell.id, for: indexPath) as? RatesCell else {
+            return UITableViewCell()
+        }
+        
+        return cell
+    }
+}
+
+private extension RatesViewController {
+
     func setupConstraints() {
         
-        contentView.addSubview(fromLabel)
-        contentView.addSubview(toLabel)
-        contentView.addSubview(sumField)
-        contentView.addSubview(idLabel)
-        contentView.addSubview(desLabel)
-     
         fromLabel.translatesAutoresizingMaskIntoConstraints = false
         toLabel.translatesAutoresizingMaskIntoConstraints = false
         sumField.translatesAutoresizingMaskIntoConstraints = false
@@ -202,7 +219,6 @@ final class RatesViewController: UIViewController {
     }
     
     func setupViews() {
-        view.addSubview(contentView)
         
         contentView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -213,27 +229,18 @@ final class RatesViewController: UIViewController {
             contentView.heightAnchor.constraint(equalToConstant: 45)
         ])
     }
-}
     
-extension RatesViewController: UITableViewDelegate, UITableViewDataSource {
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataSource.count
+    func setupSubviews() {
+        view.addSubview(contentView)
+
+        contentView.addSubview(fromLabel)
+        contentView.addSubview(toLabel)
+        contentView.addSubview(sumField)
+        contentView.addSubview(idLabel)
+        contentView.addSubview(desLabel)
+     
     }
     
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: RatesCell.id, for: indexPath) as? RatesCell else {
-            return UITableViewCell()
-        }
-        
-        return cell
-    }
-}
-
-private extension RatesViewController {
-
     func setupLayout() {
         
         loadingView.translatesAutoresizingMaskIntoConstraints = false

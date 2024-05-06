@@ -23,7 +23,7 @@ final class RatesCell: UITableViewCell {
         let label = UILabel()
         label.text = "GBP"
         label.textColor = .black
-//        label.lineBreakMode = .
+        label.textAlignment = .left
         return label
     }()
     
@@ -31,6 +31,8 @@ final class RatesCell: UITableViewCell {
         let label = UILabel()
         label.text = "Pound sterling"
         label.font = UIFont.systemFont(ofSize: 13)
+        label.textAlignment = .left
+        label.lineBreakMode = .byTruncatingTail
         label.textColor = .gray
         return label
     }()
@@ -66,6 +68,14 @@ final class RatesCell: UITableViewCell {
         stack.spacing = 8
         return stack
     }()
+    
+    private let lowerLineStack: UIStackView = {
+        let stack = UIStackView()
+        stack.distribution = .equalSpacing
+        stack.axis = .horizontal
+        stack.spacing = 8
+        return stack
+    }()
         
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -73,7 +83,7 @@ final class RatesCell: UITableViewCell {
         contentView.backgroundColor = .white
         
         setupSubviews()
-        sutupConstrainst()
+        setupConstraint()
     }
     
     @available(*, unavailable)
@@ -103,14 +113,19 @@ private extension RatesCell {
     func setupSubviews() {
         contentView.addSubview(currencyImage)
         contentView.addSubview(topLineStack)
+        contentView.addSubview(lowerLineStack)
         
         
         topLineStack.addArrangedSubview(currencyNameLabel)
         topLineStack.addArrangedSubview(currencyRate)
         topLineStack.backgroundColor = .random()
+        
+        lowerLineStack.addArrangedSubview(currencyDescLabel)
+        lowerLineStack.addArrangedSubview(currencyRateDesc)
+        lowerLineStack.backgroundColor = .random()
     }
     
-    func sutupConstrainst() {
+    func setupConstraint() {
         currencyImage.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             currencyImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -124,6 +139,13 @@ private extension RatesCell {
             topLineStack.leadingAnchor.constraint(equalTo: currencyImage.trailingAnchor, constant: 10),
             topLineStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             topLineStack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 2)
+        ])
+        
+        lowerLineStack.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            lowerLineStack.leadingAnchor.constraint(equalTo: currencyImage.trailingAnchor, constant: 10),
+            lowerLineStack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            lowerLineStack.topAnchor.constraint(equalTo: topLineStack.topAnchor, constant: 18)
         ])
     }
 }

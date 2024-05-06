@@ -52,8 +52,8 @@ extension TestViewController: UITableViewDelegate, UITableViewDataSource {
             
         let model = RatesCell.Model(
             curName: "GBP",
-            curDesc: "Pound sterling Pound sterling Pound sterling Pound sterling",
-            curImage: UIImage(named: "JPY"),
+            curDesc: "Pound sterling sterling sterling sterling sterling",
+            curImage: UIImage(named: "AED"),
             rate: "3242.492057",
             rateDescription: "1 GBP = 11.766905 SEK"
         )
