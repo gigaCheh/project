@@ -9,13 +9,13 @@ import UIKit
 
 final class ErrorView: UIView {
     
-    private lazy var errorImageView: UIImageView = {
+    private let errorImageView: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFit
         return view
     }()
     
-    private lazy var errorLabel: UILabel = {
+    private let errorLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
         label.text = "Error Occured"
@@ -24,7 +24,7 @@ final class ErrorView: UIView {
         return label
     }()
     
-    private lazy var retryButton: UIButton = {
+    private let retryButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Retry", for: .normal)
         button.backgroundColor = .white

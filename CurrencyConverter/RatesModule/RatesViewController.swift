@@ -9,33 +9,31 @@ import UIKit
 
 final class RatesViewController: UIViewController {
     
-    private var responseLatest: [LatestRatesService.Response] = []
-    private var responseSymbols: [SymbolsService.Response] = []
+    private let responseLatest: [LatestRatesService.Response] = []
+    private let responseSymbols: [SymbolsService.Response] = []
     
-    private lazy var symbolsService: SymbolsServiceProtocol = {
+    private let symbolsService: SymbolsServiceProtocol = {
         let networkService = NetworkService(tokenProvider: APIToken())
         return SymbolsService.Service(networkService: networkService)
     }()
     
-    private lazy var ratesService: LatestServiceProtocol = {
+    private let ratesService: LatestServiceProtocol = {
         let networkService = NetworkService(tokenProvider: APIToken())
         
         return LatestRatesService.Service(networkService: networkService)
     }()
     
-    
-    private lazy var errorView: ErrorView = {
+    private let errorView: ErrorView = {
         let view = ErrorView()
         view.isHidden = true
         return view
     }()
     
-    private var loadingView: LoadingView = {
+    private let loadingView: LoadingView = {
         let view = LoadingView()
         view.isHidden = true
         return view
     }()
-    
     
     private lazy var tableView: UITableView = {
         
@@ -50,13 +48,14 @@ final class RatesViewController: UIViewController {
         return table
     }()
     
-    
-    private var rates: LatestRatesService.Model
-    
-    init(rates: LatestRatesService.Model) {
+    private let rates: LatestRatesService.Model
+    private var selectedIds: Set<CurrencyId>
+
+    init(rates: LatestRatesService.Model, selectedIds: [CurrencyId]) {
         
         self.rates = LatestRatesService.Model(baseCurrencyId: rates.baseCurrencyId, date: rates.date, rates: rates.rates)
-        
+        self.selectedIds = Set(selectedIds)
+
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -64,7 +63,6 @@ final class RatesViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-     
     
     private let contentView: UIView = {
         let view = UIView()
@@ -73,7 +71,7 @@ final class RatesViewController: UIViewController {
         return view
     }()
     
-    private lazy var fromLabel: UILabel = {
+    private let fromLabel: UILabel = {
         
         let labelF = UILabel()
         labelF.text = "From:"
@@ -82,7 +80,7 @@ final class RatesViewController: UIViewController {
         return labelF
     }()
         
-    private lazy var toLabel: UILabel = {
+    private let toLabel: UILabel = {
     
         let labelT = UILabel()
         labelT.text = "To:"
@@ -92,14 +90,14 @@ final class RatesViewController: UIViewController {
         return labelT
     }()
     
-    private lazy var flagIm: UIImage = {
+    private let flagIm: UIImage = {
         
         let fImage = UIImage()
         
         return fImage
     }()
     
-    private lazy var idLabel: UILabel = {
+    private let idLabel: UILabel = {
         
         let cLabel = UILabel()
         cLabel.text = "SEK"
@@ -109,7 +107,7 @@ final class RatesViewController: UIViewController {
         return cLabel
     }()
         
-    private lazy var desLabel: UILabel = {
+    private let desLabel: UILabel = {
     
         let dLabel = UILabel()
         dLabel.text = "Swedish krona"
@@ -119,7 +117,7 @@ final class RatesViewController: UIViewController {
         return dLabel
     }()
     
-    private lazy var sumField: UITextField = {
+    private let sumField: UITextField = {
         var txtName = UITextField()
         txtName.placeholder = "Sum"
         txtName.textColor = .black
@@ -143,7 +141,6 @@ final class RatesViewController: UIViewController {
         view.addSubview(errorView)
         view.addSubview(loadingView)
         
-        
         showError()
         setupConstraints()
         setupSubviews()
@@ -151,7 +148,6 @@ final class RatesViewController: UIViewController {
         setupLayout()
         setupNavigationBar()
     }
-    
     
 }
     
@@ -161,12 +157,12 @@ extension RatesViewController: UITableViewDelegate, UITableViewDataSource {
         return rates.baseCurrencyId.count
     }
     
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: RatesCell.id, for: indexPath) as? RatesCell else {
             return UITableViewCell()
         }
+        let model = rates.rates
         
         return cell
     }
@@ -265,11 +261,9 @@ private extension RatesViewController {
         }
     }
     
-    
     func showError() {
         view.bringSubviewToFront(errorView)
     }
-    
     
     func setupNavigationBar() {
         
@@ -281,6 +275,5 @@ private extension RatesViewController {
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Edit",
                                                            primaryAction: editAction, menu: nil)
-        
     }
 }

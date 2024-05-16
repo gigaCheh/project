@@ -37,7 +37,6 @@ extension LatestRatesService.Model {
     }
 }
 
-
 extension DateFormatter {
     static let YYYYMMDD: DateFormatter = {
         let formatter = DateFormatter()
@@ -46,4 +45,3 @@ extension DateFormatter {
         return formatter
     }()
 }
-

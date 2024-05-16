@@ -48,4 +48,3 @@ private extension LoadingView {
 
     }
 }
-

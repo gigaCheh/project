@@ -10,13 +10,13 @@ import UIKit
 
 final class CurrenciesViewController: UIViewController {
 
-    private lazy var errorView: ErrorView = {
+    private let errorView: ErrorView = {
         let view = ErrorView()
         view.isHidden = true
         return view
     }()
     
-    private var loadingView: LoadingView = {
+    private let loadingView: LoadingView = {
         let view = LoadingView()
         view.isHidden = true
         return view
@@ -30,7 +30,6 @@ final class CurrenciesViewController: UIViewController {
         table.rowHeight = UITableView.automaticDimension
         table.separatorStyle = .none
         table.showsVerticalScrollIndicator = false
-        
         table.dataSource = self
         table.delegate = self
         table.register(CurrenciesCell.self, forCellReuseIdentifier: CurrenciesCell.id)
@@ -123,9 +122,7 @@ extension CurrenciesViewController: UITableViewDelegate {
 private extension CurrenciesViewController {
     
     func showError() {
-        
         view.bringSubviewToFront(errorView)
-        
     }
     
     func setupLayout() {
@@ -145,10 +142,6 @@ private extension CurrenciesViewController {
     }
     
     func setupNavigationBar() {
-        
         navigationController?.navigationBar.prefersLargeTitles = true
-        
-        
-        
     }
 }

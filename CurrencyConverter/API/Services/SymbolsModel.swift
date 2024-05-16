@@ -30,4 +30,3 @@ extension SymbolsService.Symbols {
         self.items = result
     }
 }
-
