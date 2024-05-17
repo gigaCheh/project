@@ -8,21 +8,7 @@ import Foundation
 import UIKit
 
 final class RatesViewController: UIViewController {
-    
-    private let responseLatest: [LatestRatesService.Response] = []
-    private let responseSymbols: [SymbolsService.Response] = []
-    
-    private let symbolsService: SymbolsServiceProtocol = {
-        let networkService = NetworkService(tokenProvider: APIToken())
-        return SymbolsService.Service(networkService: networkService)
-    }()
-    
-    private let ratesService: LatestServiceProtocol = {
-        let networkService = NetworkService(tokenProvider: APIToken())
         
-        return LatestRatesService.Service(networkService: networkService)
-    }()
-    
     private let errorView: ErrorView = {
         let view = ErrorView()
         view.isHidden = true
@@ -47,22 +33,6 @@ final class RatesViewController: UIViewController {
         
         return table
     }()
-    
-    private let rates: LatestRatesService.Model
-    private var selectedIds: Set<CurrencyId>
-
-    init(rates: LatestRatesService.Model, selectedIds: [CurrencyId]) {
-        
-        self.rates = LatestRatesService.Model(baseCurrencyId: rates.baseCurrencyId, date: rates.date, rates: rates.rates)
-        self.selectedIds = Set(selectedIds)
-
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     private let contentView: UIView = {
         let view = UIView()
@@ -126,13 +96,37 @@ final class RatesViewController: UIViewController {
         
         return txtName
     }()
+
+    private var symbolsMap = [CurrencyId: String]
+    private var amount: Double = 0.0
     
-    var dataSource: [String] = []
+    private var latest: LatestRatesService.Model?
+    private var symbols: SymbolsService.Symbols?
+    
+    private let symbolsService: SymbolsServiceProtocol = {
+        let networkService = NetworkService(tokenProvider: APIToken())
+        return SymbolsService.Service(networkService: networkService)
+    }()
+    
+    private let ratesService: LatestServiceProtocol = {
+        let networkService = NetworkService(tokenProvider: APIToken())
+        
+        return LatestRatesService.Service(networkService: networkService)
+    }()
+
+    private let userSettings: UserSettingsProtocol
+    
+    init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        dataSource = ["Valute 1", "Valute 2", "Valute 3"]
         
         title = "Currencies 💱"
         
@@ -147,14 +141,15 @@ final class RatesViewController: UIViewController {
         setupViews()
         setupLayout()
         setupNavigationBar()
+        
+        initialLoading()
     }
-    
 }
     
 extension RatesViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return rates.baseCurrencyId.count
+        return userSettings.toCurrencies.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -162,13 +157,56 @@ extension RatesViewController: UITableViewDelegate, UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: RatesCell.id, for: indexPath) as? RatesCell else {
             return UITableViewCell()
         }
-        let model = rates.rates
+        
+        let currencyId = userSettings.toCurrencies[indexPath.row]
+        
+        
+        
+        // let model = rates.rates
         
         return cell
     }
 }
 
 private extension RatesViewController {
+    
+    func initialLoading() {
+        // TODO: нужно показать loader - loadingView
+        
+        let dispatchGroup = DispatchGroup()
+                
+        dispatchGroup.enter()
+        symbolsService.fetchSymbols { [weak self] (result: Result<SymbolsService.Symbols, ApiClientError>) in
+            switch result {
+            case let .success(symbols):
+                self?.symbols = symbols
+            case .failure(_):
+                self?.symbols = nil
+            }
+            dispatchGroup.leave()
+        }
+        
+        dispatchGroup.enter()
+        ratesService.fetchRates(symbols: userSettings.toCurrencies, base: userSettings.fromCurrency) { [weak self] (result: Result<LatestRatesService.Model, ApiClientError>) in
+            switch result {
+            case let .success(model):
+                self?.latest = model
+            case .failure(_):
+                self?.latest = nil
+            }
+            dispatchGroup.leave()
+        }
+                
+        dispatchGroup.notify(queue: .main) { [weak self] in
+            self?.processFullUpdate()
+        }
+    }
+    
+    func processFullUpdate() {
+        // TODO: тут делаем обновление UI
+        // нужно понять, пришли ли данные в symbols и latest - если нет - отобразить error view
+        // если все ок - скрыть loading view
+    }
 
     func setupConstraints() {
         

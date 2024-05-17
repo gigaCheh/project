@@ -58,6 +58,8 @@ final class RatesCell: UITableViewCell {
         label.font = UIFont.systemFont(ofSize: 13)
         label.textColor = .gray
         label.textAlignment = .right
+        label.setContentHuggingPriority(.required, for: .horizontal)
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
         return label
     }()
     
@@ -113,16 +115,13 @@ private extension RatesCell {
     func setupSubviews() {
         contentView.addSubview(currencyImage)
         contentView.addSubview(topLineStack)
-        contentView.addSubview(lowerLineStack)
-        
+        contentView.addSubview(lowerLineStack)        
         
         topLineStack.addArrangedSubview(currencyNameLabel)
         topLineStack.addArrangedSubview(currencyRate)
-        topLineStack.backgroundColor = .random()
         
         lowerLineStack.addArrangedSubview(currencyDescLabel)
         lowerLineStack.addArrangedSubview(currencyRateDesc)
-        lowerLineStack.backgroundColor = .random()
     }
     
     func setupConstraint() {
