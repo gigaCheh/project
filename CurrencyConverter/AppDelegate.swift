@@ -40,8 +40,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         */
         
         
-        //let mainVC = TestViewController()
-        let mainVC = RatesViewController(rates: LatestRatesService.Model)
+        let mainVC = TestViewController()
+        //let mainVC = RatesViewController(userSettings: userSettings)
         
         let navController = UINavigationController(rootViewController: mainVC)
 

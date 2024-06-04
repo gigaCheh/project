@@ -97,7 +97,7 @@ final class RatesViewController: UIViewController {
         return txtName
     }()
 
-    private var symbolsMap = [CurrencyId: String]
+    //private var symbolsMap = [CurrencyId: String]
     private var amount: Double = 0.0
     
     private var latest: LatestRatesService.Model?
@@ -114,9 +114,33 @@ final class RatesViewController: UIViewController {
         return LatestRatesService.Service(networkService: networkService)
     }()
 
-    private let userSettings: UserSettingsProtocol
+    private var userSettings: UserSettingsProtocol
     
-    init() {
+    private let fromCurrencyKey = "fromCurrency"
+    private let toCurrenciesKey = "toCurrencies"
+    
+    private let defaults = UserDefaults.standard
+    
+    var fromCurrency: CurrencyId {
+        get {
+            return defaults.string(forKey: fromCurrencyKey) ?? "USD"
+        }
+        set {
+            defaults.set(newValue, forKey: fromCurrencyKey)
+        }
+    }
+    
+    var toCurrencies: [CurrencyId] {
+        get {
+            return defaults.stringArray(forKey: toCurrenciesKey) ?? ["EUR", "GBP"]
+        }
+        set {
+            defaults.set(newValue, forKey: toCurrenciesKey)
+        }
+    }
+    
+    init(userSettings: UserSettingsProtocol) {
+        self.userSettings = userSettings
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -129,6 +153,15 @@ final class RatesViewController: UIViewController {
         super.viewDidLoad()
         
         title = "Currencies 💱"
+        
+        print(userSettings.fromCurrency)
+        print(userSettings.toCurrencies)
+        
+        userSettings.fromCurrency = "USD"
+        userSettings.toCurrencies = ["EUR","GBP","JPY"]
+        
+        print(userSettings.fromCurrency)
+        print(userSettings.toCurrencies)
         
         view.backgroundColor = .white
         view.addSubview(tableView)
@@ -160,8 +193,6 @@ extension RatesViewController: UITableViewDelegate, UITableViewDataSource {
         
         let currencyId = userSettings.toCurrencies[indexPath.row]
         
-        
-        
         // let model = rates.rates
         
         return cell
@@ -172,6 +203,7 @@ private extension RatesViewController {
     
     func initialLoading() {
         // TODO: нужно показать loader - loadingView
+        showLoader()
         
         let dispatchGroup = DispatchGroup()
                 
@@ -202,11 +234,22 @@ private extension RatesViewController {
         }
     }
     
+    
+    
     func processFullUpdate() {
         // TODO: тут делаем обновление UI
         // нужно понять, пришли ли данные в symbols и latest - если нет - отобразить error view
         // если все ок - скрыть loading view
+        guard let symbols = self.symbols,!symbols.items.isEmpty, let latest = self.latest else {
+                showError()
+            return
+            }
+        
+        hideLoadingView()
+        updateUI(with: symbols, latest: latest)
     }
+    
+    
 
     func setupConstraints() {
         
@@ -301,6 +344,18 @@ private extension RatesViewController {
     
     func showError() {
         view.bringSubviewToFront(errorView)
+    }
+    
+    func showLoader() {
+        view.bringSubviewToFront(loadingView)
+    }
+    
+    func hideLoadingView() {
+        loadingView.isHidden = true
+    }
+    
+    func updateUI(with symbols: SymbolsService.Symbols, latest: LatestRatesService.Model) {
+        
     }
     
     func setupNavigationBar() {

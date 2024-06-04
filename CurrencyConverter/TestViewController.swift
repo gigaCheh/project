@@ -50,15 +50,9 @@ extension TestViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
             
-        let model = RatesCell.Model(
-            curName: "GBP",
-            curDesc: "Pound sterling sterling sterling sterling sterling",
-            curImage: UIImage(named: "GBP"),
-            rate: "3242.492057",
-            rateDescription: "1 GBP = 11.766905 SEK"
-        )
+        let model = RatesViewController(userSettings: (any UserSettingsProtocol).self as! UserSettingsProtocol)
         
-        cell.update(model: model)
+        //cell.update(model: model)
         return cell
     }
   
