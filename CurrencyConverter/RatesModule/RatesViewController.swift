@@ -51,7 +51,7 @@ final class RatesViewController: UIViewController {
     }()
         
     private let toLabel: UILabel = {
-    
+        
         let labelT = UILabel()
         labelT.text = "To:"
         labelT.textColor = .gray
@@ -97,11 +97,11 @@ final class RatesViewController: UIViewController {
         return txtName
     }()
 
-    //private var symbolsMap = [CurrencyId: String]
     private var amount: Double = 0.0
     
     private var latest: LatestRatesService.Model?
     private var symbols: SymbolsService.Symbols?
+    private var rateCellModels: [RatesCell]
     
     private let symbolsService: SymbolsServiceProtocol = {
         let networkService = NetworkService(tokenProvider: APIToken())
@@ -115,29 +115,6 @@ final class RatesViewController: UIViewController {
     }()
 
     private var userSettings: UserSettingsProtocol
-    
-    private let fromCurrencyKey = "fromCurrency"
-    private let toCurrenciesKey = "toCurrencies"
-    
-    private let defaults = UserDefaults.standard
-    
-    var fromCurrency: CurrencyId {
-        get {
-            return defaults.string(forKey: fromCurrencyKey) ?? "USD"
-        }
-        set {
-            defaults.set(newValue, forKey: fromCurrencyKey)
-        }
-    }
-    
-    var toCurrencies: [CurrencyId] {
-        get {
-            return defaults.stringArray(forKey: toCurrenciesKey) ?? ["EUR", "GBP"]
-        }
-        set {
-            defaults.set(newValue, forKey: toCurrenciesKey)
-        }
-    }
     
     init(userSettings: UserSettingsProtocol) {
         self.userSettings = userSettings
@@ -153,15 +130,6 @@ final class RatesViewController: UIViewController {
         super.viewDidLoad()
         
         title = "Currencies 💱"
-        
-        print(userSettings.fromCurrency)
-        print(userSettings.toCurrencies)
-        
-        userSettings.fromCurrency = "USD"
-        userSettings.toCurrencies = ["EUR","GBP","JPY"]
-        
-        print(userSettings.fromCurrency)
-        print(userSettings.toCurrencies)
         
         view.backgroundColor = .white
         view.addSubview(tableView)
@@ -193,7 +161,27 @@ extension RatesViewController: UITableViewDelegate, UITableViewDataSource {
         
         let currencyId = userSettings.toCurrencies[indexPath.row]
         
-        // let model = rates.rates
+        guard let rate = latest?.rates[currencyId] else {
+            return UITableViewCell()
+        }
+        
+        let value = rate * amount
+        
+        guard let description = symbols?.items.first( where: { $0.id == currencyId } ) else {
+            return UITableViewCell()
+        }
+        
+        let image = UIImage(named: currencyId)
+        
+        let model = RatesCell.Model(
+            curName: currencyId,
+            curDesc: description,
+            curImage: image,
+            rate: <#T##String#>,
+            rateDescription: <#T##String#>
+        )
+        
+        cell.update(model: model)
         
         return cell
     }
@@ -202,17 +190,15 @@ extension RatesViewController: UITableViewDelegate, UITableViewDataSource {
 private extension RatesViewController {
     
     func initialLoading() {
-        // TODO: нужно показать loader - loadingView
         showLoader()
         
         let dispatchGroup = DispatchGroup()
-                
         dispatchGroup.enter()
         symbolsService.fetchSymbols { [weak self] (result: Result<SymbolsService.Symbols, ApiClientError>) in
             switch result {
             case let .success(symbols):
                 self?.symbols = symbols
-            case .failure(_):
+            case .failure:
                 self?.symbols = nil
             }
             dispatchGroup.leave()
@@ -223,33 +209,28 @@ private extension RatesViewController {
             switch result {
             case let .success(model):
                 self?.latest = model
-            case .failure(_):
+            case .failure:
                 self?.latest = nil
             }
             dispatchGroup.leave()
         }
                 
         dispatchGroup.notify(queue: .main) { [weak self] in
+            self?.hideLoadingView()
             self?.processFullUpdate()
         }
     }
     
-    
-    
     func processFullUpdate() {
-        // TODO: тут делаем обновление UI
-        // нужно понять, пришли ли данные в symbols и latest - если нет - отобразить error view
-        // если все ок - скрыть loading view
-        guard let symbols = self.symbols,!symbols.items.isEmpty, let latest = self.latest else {
-                showError()
+        guard let symbols = self.symbols, !symbols.items.isEmpty, let latest = self.latest else {
+            showError()
             return
-            }
+        }
         
-        hideLoadingView()
-        updateUI(with: symbols, latest: latest)
+        updateRatesModel(with: symbols, latest: latest)
+        
+        tableView.reloadData()
     }
-    
-    
 
     func setupConstraints() {
         
@@ -315,7 +296,6 @@ private extension RatesViewController {
         contentView.addSubview(sumField)
         contentView.addSubview(idLabel)
         contentView.addSubview(desLabel)
-     
     }
     
     func setupLayout() {
@@ -354,8 +334,36 @@ private extension RatesViewController {
         loadingView.isHidden = true
     }
     
-    func updateUI(with symbols: SymbolsService.Symbols, latest: LatestRatesService.Model) {
+    func updateRatesModel(with symbols: SymbolsService.Symbols, latest: LatestRatesService.Model) {
+        rateCellModels.removeAll()
         
+        userSettings.toCurrencies.forEach { currencyId in
+            
+            
+            
+        }
+        
+        guard let rate = latest?.rates[currencyId] else {
+            
+        }
+        
+        let value = rate * amount
+        
+        guard let description = symbols?.items.first( where: { $0.id == currencyId } ) else {
+            return UITableViewCell()
+        }
+        
+        let image = UIImage(named: currencyId)
+        
+        let model = RatesCell.Model(
+            curName: currencyId,
+            curDesc: description,
+            curImage: image,
+            rate: <#T##String#>,
+            rateDescription: <#T##String#>
+        )
+        
+        cell.update(model: model)
     }
     
     func setupNavigationBar() {
